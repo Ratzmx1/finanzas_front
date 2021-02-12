@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import { Switch, Route } from "react-router-dom";
+
+import { NavBar } from "./Components/NavBar/NavBar";
+
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
+import Notfound from "./Components/NotFound/notfound";
+
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setToken, setUser } from "./Redux/actionCreators";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    let user = localStorage.getItem("user");
+    if (token && user) {
+      user = JSON.parse(user);
+      dispatch(setToken(token));
+      dispatch(setUser(user));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <NavBar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route component={Notfound} />
+      </Switch>
+    </>
   );
 }
 
