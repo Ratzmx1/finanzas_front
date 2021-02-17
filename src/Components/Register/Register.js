@@ -5,26 +5,34 @@ import { baseUrl } from "../../Utils/baseUrl";
 import axios from "axios";
 
 import { useHistory } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../../Redux/actionCreators";
 
 import Swal from "sweetalert2";
 
-const Login = () => {
+const Register = () => {
   const [rut, setRut] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
   const navigator = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseUrl}/users/login`, { rut, password });
-      if (res) {
-        dispatch(setToken(res.data.token));
-        dispatch(setUser(res.data.user));
-        await Swal.fire(`Success`, `Sesion iniciada corretamente`, `success`);
+      const res = await axios.post(`${baseUrl}/users/register`, {
+        rut,
+        password,
+        lastname,
+        name,
+      });
+      console.log(res);
+      if (res.data.data && res.data.data.token) {
+        dispatch(setToken(res.data.data.token));
+        dispatch(setUser(res.data.data.user));
+        await Swal.fire(`Success`, `Registrado correctamente`, `success`);
+
         navigator.push("/");
       }
     } catch (err) {
@@ -33,6 +41,8 @@ const Login = () => {
           console.log("Informacion Mal Ingresada");
         } else if (err.response.status === 404) {
           console.log("Usuario y/o contraseña incorrectas");
+        } else if (err.response.status === 409) {
+          console.log("Usuario ya registrado");
         }
       }
     }
@@ -61,6 +71,24 @@ const Login = () => {
                     </Form.Field>
                     <Form.Field>
                       <input
+                        placeholder="Nombre"
+                        onChange={(e) => {
+                          setName(e.target.value);
+                        }}
+                        value={name}
+                      />
+                    </Form.Field>
+                    <Form.Field>
+                      <input
+                        placeholder="Apellidos"
+                        onChange={(e) => {
+                          setLastname(e.target.value);
+                        }}
+                        value={lastname}
+                      />
+                    </Form.Field>
+                    <Form.Field>
+                      <input
                         placeholder="Password"
                         type="password"
                         onChange={(e) => {
@@ -74,10 +102,13 @@ const Login = () => {
                       primary
                       fluid
                       disabled={
-                        rut.toString().length < 6 || password.length < 6
+                        rut.toString().length < 6 ||
+                        password.length < 6 ||
+                        name.length === 0 ||
+                        lastname.length === 0
                       }
                     >
-                      Iniciar Sesion
+                      Registrar
                     </Button>
                   </Form>
                 </Grid.Column>
@@ -90,4 +121,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

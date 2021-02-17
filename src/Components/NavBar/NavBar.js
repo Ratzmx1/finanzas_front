@@ -1,21 +1,32 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { Menu, Container } from "semantic-ui-react";
+import { Menu, Container, Icon } from "semantic-ui-react";
 
 import { useHistory } from "react-router-dom";
+
 import { useSelector } from "react-redux";
+
+import { useDispatch } from "react-redux";
+import { setToken, setUser } from "../../Redux/actionCreators";
 
 export const NavBar = () => {
   const [active, setActive] = useState();
-  const user = useSelector((state) => state.user);
   const navigator = useHistory();
+  const dispatch = useDispatch();
 
   const handleCLick = (selection) => {
     setActive(selection);
   };
 
+  const user = useSelector((state) => state.user);
   useEffect(() => {
     if (user.id) {
-      setActive("Inicio");
+      const url = navigator.location.pathname;
+      if (url === "/ganancias") {
+        setActive("Ganancias");
+      } else {
+        setActive("Inicio");
+      }
     } else {
       setActive("Login");
     }
@@ -28,6 +39,7 @@ export const NavBar = () => {
           {user.id && (
             <>
               <Menu.Item
+                icon={<Icon size="large" name="chart bar" />}
                 name="Inicio"
                 active={active === "Inicio"}
                 onClick={() => {
@@ -36,19 +48,31 @@ export const NavBar = () => {
                 }}
               />
               <Menu.Item
-                name="Menu"
-                active={active === "Menu"}
+                icon={<Icon size="large" name="arrow circle down" />}
+                name="Gastos"
+                active={active === "Gastos"}
                 onClick={() => {
-                  handleCLick("Menu");
+                  handleCLick("Gastos");
                   navigator.push("/");
                 }}
               />
               <Menu.Item
-                name="Productos"
-                active={active === "Productos"}
+                icon={<Icon size="large" name="arrow circle up" />}
+                name="Ganancias"
+                active={active === "Ganancias"}
                 onClick={() => {
-                  handleCLick("Productos");
-                  navigator.push("/");
+                  handleCLick("Ganancias");
+                  navigator.push("/ganancias");
+                }}
+              />
+              <Menu.Item
+                icon={<Icon size="large" name="arrow circle up" />}
+                name="Cerrar sesion"
+                position="right"
+                onClick={() => {
+                  dispatch(setToken(""));
+                  dispatch(setUser({}));
+                  navigator.push("/login");
                 }}
               />
             </>

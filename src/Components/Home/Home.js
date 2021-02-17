@@ -1,7 +1,7 @@
 import { Container } from "semantic-ui-react";
 
 const Home = () => {
-  return <Container>Home</Container>;
+  return <Container></Container>;
 };
 
 export default Home;
