@@ -28,8 +28,8 @@ const ModalAgregar = () => {
   const [productsSelected, setSelected] = useState([""]);
   const [quantities, setQuantities] = useState([""]);
   const [prices, setPrices] = useState([""]);
-  const [type, setType] = useState("");
-  const [identifier, setIdentifier] = useState("");
+  const [Provider, setProvider] = useState("");
+  const [facture, setfacture] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
@@ -63,17 +63,17 @@ const ModalAgregar = () => {
 
     try {
       await axios.post(
-        `${baseUrl}/profits`,
+        `${baseUrl}/expenses`,
         {
-          type,
-          number: parseInt(identifier),
+          provider: Provider,
+          facture: parseInt(facture),
           products: prod,
         },
         {
           headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      await Swal.fire(`Success`, `Venta agregada correctamente`, `success`);
+      await Swal.fire(`Success`, `Compra agregada correctamente`, `success`);
       navigator.go(0);
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -100,16 +100,16 @@ const ModalAgregar = () => {
             <Grid.Column width="13">
               <Form.Field>
                 <Input
-                  placeholder="Tipo"
-                  onChange={(e, { value }) => setType(value)}
+                  placeholder="Proveedor"
+                  onChange={(e, { value }) => setProvider(value)}
                 />
               </Form.Field>
               <Form.Field>
                 <Input
-                  placeholder="Numero identificador"
-                  type="number"
+                  placeholder="Numero de factura"
+                  Provider="number"
                   min="1"
-                  onChange={(e, { value }) => setIdentifier(value)}
+                  onChange={(e, { value }) => setfacture(value)}
                 />
               </Form.Field>
               <Grid>
@@ -139,7 +139,7 @@ const ModalAgregar = () => {
                       <Form.Field>
                         <Input
                           placeholder="Precio unitario"
-                          type="number"
+                          Provider="number"
                           min="0"
                           step="1"
                           onChange={(e, { value }) => {
@@ -154,7 +154,7 @@ const ModalAgregar = () => {
                       <Form.Field>
                         <Input
                           placeholder="Cantidad"
-                          type="number"
+                          Provider="number"
                           onChange={(e, { value }) => {
                             const p = [...quantities];
                             p[index] = value;
@@ -191,13 +191,13 @@ const ModalAgregar = () => {
                     setQuantities([...quantities, ""]);
                     setPrices([...prices, ""]);
                   }}
-                  type="button"
+                  Provider="button"
                 >
                   Agregar producto
                 </Button>
               </div>
 
-              <Button fluid color="blue" type="submit">
+              <Button fluid color="blue" Provider="submit">
                 Agregar
               </Button>
             </Grid.Column>

@@ -53,7 +53,7 @@ export const NavBar = () => {
                 active={active === "Gastos"}
                 onClick={() => {
                   handleCLick("Gastos");
-                  navigator.push("/");
+                  navigator.push("/gastos");
                 }}
               />
               <Menu.Item
@@ -66,7 +66,7 @@ export const NavBar = () => {
                 }}
               />
               <Menu.Item
-                icon={<Icon size="large" name="arrow circle up" />}
+                icon={<Icon size="large" name="close" />}
                 name="Cerrar sesion"
                 position="right"
                 onClick={() => {

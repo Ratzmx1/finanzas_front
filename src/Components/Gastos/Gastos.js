@@ -17,7 +17,7 @@ import ModalAgregar from "./ModalAgregar";
 
 import Swal from "sweetalert2";
 
-const Ganancias = () => {
+const Gastos = () => {
   const [selection, setSelection] = useState("week");
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
@@ -71,19 +71,20 @@ const Ganancias = () => {
     }
     try {
       const res = await axios.get(
-        `${baseUrl}/profits/${url}?data=${JSON.stringify(fetchData)}`,
+        `${baseUrl}/expenses/${url}?data=${JSON.stringify(fetchData)}`,
         {
           headers: { authorization: `bearer ${localStorage.getItem("token")}` },
         }
       );
-      setData(res.data.profits);
+      console.log(res);
+      setData(res.data.data);
     } catch (error) {}
   };
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await axios.get(`${baseUrl}/profits/`, {
+        const res = await axios.get(`${baseUrl}/expenses/`, {
           headers: { Authorization: `bearer ${localStorage.getItem("token")}` },
         });
         setData(res.data.data);
@@ -96,9 +97,8 @@ const Ganancias = () => {
   return (
     <Container>
       <Header textAlign="center" size="huge">
-        Ventas
+        Compras
       </Header>
-
       <Grid columns={3}>
         <Grid.Row>
           <Grid.Column>
@@ -148,4 +148,4 @@ const Ganancias = () => {
   );
 };
 
-export default Ganancias;
+export default Gastos;
