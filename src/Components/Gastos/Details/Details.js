@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Table, Container, Header, Label, List } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
 
@@ -6,11 +7,15 @@ import axios from "axios";
 import { baseUrl } from "../../../Utils/baseUrl";
 
 import dayjs from "dayjs";
+import Swal from "sweetalert2";
+
+import { setToken, setUser } from "../../../Redux/actionCreators";
+import { useDispatch } from "react-redux";
 
 const Detail = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -21,7 +26,14 @@ const Detail = () => {
         });
         setData(res.data.data);
         console.log(res.data.data);
-      } catch (error) {}
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
+          dispatch(setToken(""));
+          dispatch(setUser({}));
+          navigator.push("/login");
+        }
+      }
     };
     fetch();
   }, [id]);
@@ -73,8 +85,18 @@ const Detail = () => {
                 <Table.Row textAlign="center" key={item._id}>
                   <Table.Cell>{item.name}</Table.Cell>
                   <Table.Cell>{item.quantity}</Table.Cell>
-                  <Table.Cell>{item.price}</Table.Cell>
-                  <Table.Cell>{item.price * item.quantity}</Table.Cell>
+                  <Table.Cell>
+                    {new Intl.NumberFormat("es-cl", {
+                      style: "currency",
+                      currency: "CLP",
+                    }).format(item.price)}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {new Intl.NumberFormat("es-cl", {
+                      style: "currency",
+                      currency: "CLP",
+                    }).format(item.price * item.quantity)}
+                  </Table.Cell>
                 </Table.Row>
               ))}
               <Table.Row>
@@ -82,7 +104,12 @@ const Detail = () => {
                 <Table.Cell></Table.Cell>
                 <Table.Cell></Table.Cell>
                 <Table.Cell>
-                  <b>{data.total}</b>
+                  <b>
+                    {new Intl.NumberFormat("es-cl", {
+                      style: "currency",
+                      currency: "CLP",
+                    }).format(data.total)}
+                  </b>
                 </Table.Cell>
               </Table.Row>
             </Table.Body>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Container,
   Select,
@@ -14,14 +15,17 @@ import DataTable from "./Table";
 import axios from "axios";
 import { baseUrl } from "../../Utils/baseUrl";
 import ModalAgregar from "./ModalAgregar";
-
 import Swal from "sweetalert2";
+
+import { setToken, setUser } from "../../Redux/actionCreators";
+import { useDispatch } from "react-redux";
 
 const Ganancias = () => {
   const [selection, setSelection] = useState("week");
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
   const selectOptions = [
     { key: "lastest", value: "lastest", text: "Todos" },
@@ -77,7 +81,14 @@ const Ganancias = () => {
         }
       );
       setData(res.data.profits);
-    } catch (error) {}
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
+        dispatch(setToken(""));
+        dispatch(setUser({}));
+        navigator.push("/login");
+      }
+    }
   };
 
   useEffect(() => {
@@ -87,7 +98,14 @@ const Ganancias = () => {
           headers: { Authorization: `bearer ${localStorage.getItem("token")}` },
         });
         setData(res.data.data);
-      } catch (error) {}
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
+          dispatch(setToken(""));
+          dispatch(setUser({}));
+          navigator.push("/login");
+        }
+      }
     };
 
     fetch();
@@ -102,22 +120,22 @@ const Ganancias = () => {
       <Grid columns={3}>
         <Grid.Row>
           <Grid.Column>
-            {selection === "date" && (
-              <Input
-                type={selection}
-                onChange={(e) => setInput2(e.target.value)}
-                fluid
-              />
-            )}
+            <Input
+              type={selection}
+              onChange={(e) => setInput2(e.target.value)}
+              fluid
+              style={{ height: "2.71428571em" }}
+              disabled={selection !== "date"}
+            />
           </Grid.Column>
           <Grid.Column>
-            {selection !== "lastest" && (
-              <Input
-                type={selection}
-                onChange={(e) => setInput1(e.target.value)}
-                fluid
-              />
-            )}
+            <Input
+              type={selection}
+              onChange={(e) => setInput1(e.target.value)}
+              fluid
+              style={{ height: "2.71428571em" }}
+              disabled={selection === "lastest"}
+            />
           </Grid.Column>
           <Grid.Column>
             <Select
@@ -130,17 +148,17 @@ const Ganancias = () => {
               value={selection}
               options={selectOptions}
             />
-            <Button primary onClick={fetchData}>
+            <Button style={{ marginLeft: "0.7vw" }} primary onClick={fetchData}>
               Aplicar
             </Button>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column></Grid.Column>
-          <Grid.Column></Grid.Column>
           <Grid.Column>
             <ModalAgregar />
           </Grid.Column>
+          <Grid.Column></Grid.Column>
         </Grid.Row>
       </Grid>
       <DataTable data={data} />

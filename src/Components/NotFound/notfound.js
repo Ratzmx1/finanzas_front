@@ -9,9 +9,6 @@ function Notfound() {
             4<span>0</span>4
           </h1>
         </div>
-        <a style={{ marginTop: "30%" }} href="/">
-          home page
-        </a>
       </div>
     </div>
   );

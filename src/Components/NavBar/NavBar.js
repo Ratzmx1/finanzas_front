@@ -14,7 +14,7 @@ export const NavBar = () => {
   const navigator = useHistory();
   const dispatch = useDispatch();
 
-  const handleCLick = (selection) => {
+  const handleClick = (selection) => {
     setActive(selection);
   };
 
@@ -24,6 +24,10 @@ export const NavBar = () => {
       const url = navigator.location.pathname;
       if (url === "/ganancias") {
         setActive("Ganancias");
+      } else if (url === "/productos") {
+        setActive("Productos");
+      } else if (url === "/gastos") {
+        setActive("Gastos");
       } else {
         setActive("Inicio");
       }
@@ -34,7 +38,7 @@ export const NavBar = () => {
 
   return (
     <>
-      <Menu pointing secondary>
+      <Menu pointing secondary size="large">
         <Container>
           {user.id && (
             <>
@@ -43,7 +47,7 @@ export const NavBar = () => {
                 name="Inicio"
                 active={active === "Inicio"}
                 onClick={() => {
-                  handleCLick("Inicio");
+                  handleClick("Inicio");
                   navigator.push("/");
                 }}
               />
@@ -52,7 +56,7 @@ export const NavBar = () => {
                 name="Gastos"
                 active={active === "Gastos"}
                 onClick={() => {
-                  handleCLick("Gastos");
+                  handleClick("Gastos");
                   navigator.push("/gastos");
                 }}
               />
@@ -61,8 +65,17 @@ export const NavBar = () => {
                 name="Ganancias"
                 active={active === "Ganancias"}
                 onClick={() => {
-                  handleCLick("Ganancias");
+                  handleClick("Ganancias");
                   navigator.push("/ganancias");
+                }}
+              />
+              <Menu.Item
+                icon={<Icon size="large" name="product hunt" />}
+                name="Productos"
+                active={active === "Productos"}
+                onClick={() => {
+                  handleClick("Productos");
+                  navigator.push("/productos");
                 }}
               />
               <Menu.Item
@@ -84,7 +97,7 @@ export const NavBar = () => {
                 active={active === "Login"}
                 name="Iniciar Sesion"
                 onClick={() => {
-                  handleCLick("Login");
+                  handleClick("Login");
                   navigator.push("/login");
                 }}
               />
@@ -93,7 +106,7 @@ export const NavBar = () => {
                 position=""
                 active={active === "Register"}
                 onClick={() => {
-                  handleCLick("Register");
+                  handleClick("Register");
                   navigator.push("/register");
                 }}
               />

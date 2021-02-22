@@ -27,12 +27,15 @@ const Login = () => {
         await Swal.fire(`Success`, `Sesion iniciada corretamente`, `success`);
         navigator.push("/");
       }
-    } catch (err) {
-      if (err.response) {
-        if (err.response.status === 400) {
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
           console.log("Informacion Mal Ingresada");
-        } else if (err.response.status === 404) {
-          console.log("Usuario y/o contraseña incorrectas");
+        } else if (error.response && error.response.status === 404) {
+          await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
+          dispatch(setToken(""));
+          dispatch(setUser({}));
+          navigator.push("/login");
         }
       }
     }

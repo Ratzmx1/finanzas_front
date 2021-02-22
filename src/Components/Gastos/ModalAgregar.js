@@ -13,12 +13,9 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 import { baseUrl } from "../../Utils/baseUrl";
-
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../../Redux/actionCreators";
-
 import Swal from "sweetalert2";
-
 import { useHistory } from "react-router-dom";
 
 const ModalAgregar = () => {
@@ -30,6 +27,7 @@ const ModalAgregar = () => {
   const [prices, setPrices] = useState([""]);
   const [Provider, setProvider] = useState("");
   const [facture, setfacture] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
@@ -68,6 +66,7 @@ const ModalAgregar = () => {
           provider: Provider,
           facture: parseInt(facture),
           products: prod,
+          description,
         },
         {
           headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -98,20 +97,40 @@ const ModalAgregar = () => {
           <Grid columns="12">
             <Grid.Column></Grid.Column>
             <Grid.Column width="13">
-              <Form.Field>
-                <Input
-                  placeholder="Proveedor"
-                  onChange={(e, { value }) => setProvider(value)}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Input
-                  placeholder="Numero de factura"
-                  Provider="number"
-                  min="1"
-                  onChange={(e, { value }) => setfacture(value)}
-                />
-              </Form.Field>
+              <Grid>
+                <Grid.Row columns="2">
+                  <Grid.Column>
+                    <Form.Field>
+                      <Input
+                        placeholder="Proveedor"
+                        onChange={(e, { value }) => setProvider(value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Field>
+                      <Input
+                        placeholder="Numero de factura"
+                        type="number"
+                        min="1"
+                        onChange={(e, { value }) => setfacture(value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Form.Field>
+                      <Form.TextArea
+                        placeholder="Descripcion"
+                        type="text"
+                        onChange={(e, { value }) => setDescription(value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+
               <Grid>
                 {productsSelected.map((item, index) => (
                   <Grid.Row key={index}>
@@ -191,13 +210,13 @@ const ModalAgregar = () => {
                     setQuantities([...quantities, ""]);
                     setPrices([...prices, ""]);
                   }}
-                  Provider="button"
+                  type="button"
                 >
                   Agregar producto
                 </Button>
               </div>
 
-              <Button fluid color="blue" Provider="submit">
+              <Button fluid color="blue" type="submit">
                 Agregar
               </Button>
             </Grid.Column>

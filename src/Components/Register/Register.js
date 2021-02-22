@@ -39,9 +39,12 @@ const Register = () => {
       if (err.response) {
         if (err.response.status === 400) {
           console.log("Informacion Mal Ingresada");
-        } else if (err.response.status === 404) {
-          console.log("Usuario y/o contraseña incorrectas");
-        } else if (err.response.status === 409) {
+        } else if (err.response && err.response.status === 404) {
+          await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
+          dispatch(setToken(""));
+          dispatch(setUser({}));
+          navigator.push("/login");
+        }else if (err.response.status === 409) {
           console.log("Usuario ya registrado");
         }
       }
