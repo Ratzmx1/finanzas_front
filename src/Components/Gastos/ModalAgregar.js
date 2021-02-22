@@ -1,13 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Modal,
-  Button,
-  Form,
-  Grid,
-  Search,
-  Input,
-  Icon,
-} from "semantic-ui-react";
+import { Modal, Button, Form, Grid, Search, Icon } from "semantic-ui-react";
 
 import { useState, useEffect } from "react";
 
@@ -101,7 +93,8 @@ const ModalAgregar = () => {
                 <Grid.Row columns="2">
                   <Grid.Column>
                     <Form.Field>
-                      <Input
+                      <Form.Input
+                        required
                         placeholder="Proveedor"
                         onChange={(e, { value }) => setProvider(value)}
                       />
@@ -109,7 +102,8 @@ const ModalAgregar = () => {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Field>
-                      <Input
+                      <Form.Input
+                        required
                         placeholder="Numero de factura"
                         type="number"
                         min="1"
@@ -156,7 +150,8 @@ const ModalAgregar = () => {
                     </Grid.Column>
                     <Grid.Column width="4">
                       <Form.Field>
-                        <Input
+                        <Form.Input
+                          required
                           placeholder="Precio unitario"
                           Provider="number"
                           min="0"
@@ -171,7 +166,8 @@ const ModalAgregar = () => {
                     </Grid.Column>
                     <Grid.Column width="3">
                       <Form.Field>
-                        <Input
+                        <Form.Input
+                          required
                           placeholder="Cantidad"
                           Provider="number"
                           onChange={(e, { value }) => {

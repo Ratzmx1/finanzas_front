@@ -1,4 +1,4 @@
-import { Container, Header, Button, Grid } from "semantic-ui-react";
+import { Container, Header, Grid } from "semantic-ui-react";
 
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -9,7 +9,8 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import Swal from "sweetalert2";
-import WithAccordion from "./WithAccordeon";
+
+import WithAccordion from "./WithAccordion";
 import Lista from "./List";
 import ModalAgregar from "./ModalAgregar";
 
