@@ -45,3 +45,6 @@ function App() {
 }
 
 export default App;
+
+//TODO: Gestion de caja (Tipo saldo banco)
+//TODO: Hacer responsive

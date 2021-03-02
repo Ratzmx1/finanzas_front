@@ -38,7 +38,7 @@ export const NavBar = () => {
 
   return (
     <>
-      <Menu pointing secondary size="large">
+      <Menu pointing secondary size="large" stackable>
         <Container>
           {user.id && (
             <>

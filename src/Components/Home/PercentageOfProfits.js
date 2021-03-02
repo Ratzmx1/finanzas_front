@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Chart, Interval, Tooltip, Axis, Coordinate } from "bizcharts";
+import { Header } from "semantic-ui-react";
 
 import axios from "axios";
 import { baseUrl } from "../../Utils/baseUrl";
@@ -60,6 +61,8 @@ const Percentage = () => {
       },
     },
   };
+
+  if (data.length < 2) return <Header>Sin informacion este mes</Header>;
 
   return (
     <Chart height={400} data={data} scale={cols} autoFit>

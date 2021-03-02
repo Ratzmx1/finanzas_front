@@ -224,3 +224,9 @@ const ModalAgregar = () => {
 };
 
 export default ModalAgregar;
+
+//TODO: Agregar tipo : Gasto local - Factura de compra
+//TODO: Tipo de compra : Factura / Boleta / Otro
+//TODO: Ingresar fecha de compra
+//TODO: Tipo de compra : Credito / Contado
+//TODO: Si es credito: Fecha de pago

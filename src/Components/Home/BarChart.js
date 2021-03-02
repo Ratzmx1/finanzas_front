@@ -1,4 +1,5 @@
 import { Chart, Interval, Tooltip } from "bizcharts";
+import { Header } from "semantic-ui-react";
 
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -50,6 +51,8 @@ const Percentaje = () => {
     fetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (data.length < 2) return <Header>Sin informacion este mes</Header>;
 
   return (
     <Chart height={400} padding="auto" data={data} autoFit>

@@ -29,8 +29,6 @@ const YearResume = () => {
         res.data.date.forEach((e) => {
           e.name = dayjs(e.date).format("MMMM - YYYY");
         });
-        res.data.date[0].total = -50000;
-        res.data.date[1].total = -100000;
         setData(res.data.date);
       } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -56,7 +54,7 @@ const YearResume = () => {
     >
       <Interval
         position="name*total"
-        color={["total", (total) => (total > 0 ? "#36c361" : "#ff5957")]}
+        color={["total", (total) => (total >= 0 ? "#36c361" : "#ff5957")]}
       />
       <Legend visible={false} />
       <Tooltip shared />

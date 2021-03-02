@@ -1,5 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Modal, Button, Form, Grid, Search, Icon } from "semantic-ui-react";
+import {
+  Modal,
+  Button,
+  Form,
+  Grid,
+  Search,
+  Icon,
+  Select,
+} from "semantic-ui-react";
 
 import { useState, useEffect } from "react";
 
@@ -23,6 +31,7 @@ const ModalAgregar = () => {
   const [type, setType] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [desc, setDesc] = useState("");
+  const [date, setDate] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
@@ -62,6 +71,7 @@ const ModalAgregar = () => {
           number: parseInt(identifier),
           products: prod,
           description: desc,
+          date: new Date(date),
         },
         {
           headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -70,6 +80,7 @@ const ModalAgregar = () => {
       await Swal.fire(`Success`, `Venta agregada correctamente`, `success`);
       navigator.go(0);
     } catch (error) {
+      console.log(error.response);
       if (error.response && error.response.status === 404) {
         await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
         dispatch(setToken(""));
@@ -95,13 +106,18 @@ const ModalAgregar = () => {
             <Grid.Column></Grid.Column>
             <Grid.Column width="13">
               <Grid>
-                <Grid.Row columns="2">
+                <Grid.Row columns="3">
                   <Grid.Column>
                     <Form.Field>
-                      <Form.Input
-                        required
+                      <Select
                         placeholder="Tipo"
+                        options={[
+                          { key: "Boleta", value: "Boleta", text: "Boleta" },
+                          { key: "Factura", value: "Factura", text: "Factura" },
+                          { key: "Otro", value: "Otro", text: "Otro" },
+                        ]}
                         onChange={(e, { value }) => setType(value)}
+                        style={{ height: "2.71428571em" }}
                       />
                     </Form.Field>
                   </Grid.Column>
@@ -111,10 +127,19 @@ const ModalAgregar = () => {
                         required
                         placeholder="Numero identificador"
                         type="number"
-                        min="1"
+                        min="0"
                         onChange={(e, { value }) => setIdentifier(value)}
+                        style={{ height: "2.71428571em" }}
                       />
                     </Form.Field>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Input
+                      type="date"
+                      onChange={(e, { value }) => setDate(value)}
+                      required
+                      style={{ height: "2.71428571em" }}
+                    />
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
@@ -149,6 +174,7 @@ const ModalAgregar = () => {
                             p[index] = result.title;
                             setSelected(p);
                           }}
+                          required
                         />
                       </Form.Field>
                     </Grid.Column>
