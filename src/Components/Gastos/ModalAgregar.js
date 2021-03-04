@@ -19,6 +19,8 @@ import { setToken, setUser } from "../../Redux/actionCreators";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 
+import "./styles.css";
+
 const ModalAgregar = () => {
   const navigator = useHistory();
   const dispatch = useDispatch();
@@ -101,269 +103,322 @@ const ModalAgregar = () => {
           Agregar
         </Button>
       }
+      size="small"
     >
       <Modal.Header>Agregar entrada</Modal.Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit}>
-          <Grid columns="12">
-            <Grid.Column></Grid.Column>
-            <Grid.Column width="13">
-              <Grid>
-                <Grid.Row columns="2" style={{ paddingBottom: "1px" }}>
-                  <Grid.Column>
-                    <Header size="small"> Proveedor </Header>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Header size="small"> Tipo de gasto </Header>
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns="2">
-                  <Grid.Column>
-                    <Form.Field>
-                      <Form.Input
-                        required
-                        placeholder="Proveedor"
-                        style={{ height: "2.71428571em" }}
-                        onChange={(e, { value }) => setProvider(value)}
-                      />
-                    </Form.Field>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Form.Field>
-                      <Select
-                        required
-                        placeholder="Tipo de gasto"
-                        style={{ height: "2.71428571em" }}
-                        options={[
-                          {
-                            key: "Gasto Local",
-                            value: "Gasto Local",
-                            text: "Gasto Local",
-                          },
-                          {
-                            key: "Factura de Compra",
-                            value: "Factura de Compra",
-                            text: "Factura de Compra",
-                          },
-                        ]}
-                        onChange={(e, { value }) => setExpenseType(value)}
-                      />
-                    </Form.Field>
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns="3" style={{ paddingBottom: "1px" }}>
-                  <Grid.Column>
-                    <Header size="small"> Tipo de documento </Header>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Header size="small">
-                      {docType === "Factura" && "Numero de factura"}
-                    </Header>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Header size="small"> Fecha de compra </Header>
-                  </Grid.Column>
-                </Grid.Row>
-
-                <Grid.Row columns="3">
-                  <Grid.Column>
-                    <Form.Field>
-                      <Select
-                        required
-                        placeholder="Tipo de documento"
-                        style={{ height: "2.71428571em" }}
-                        options={[
-                          { key: "Boleta", value: "Boleta", text: "Boleta" },
-                          { key: "Factura", value: "Factura", text: "Factura" },
-                          { key: "Otro", value: "Otro", text: "Otro" },
-                        ]}
-                        onChange={(e, { value }) => {
-                          setDocType(value);
-                          setfacture(1);
-                        }}
-                      />
-                    </Form.Field>
-                  </Grid.Column>
-
-                  <Grid.Column>
-                    <Form.Field>
-                      <Form.Input
-                        required
-                        placeholder="Numero de factura"
-                        type="number"
-                        min="1"
-                        disabled={docType !== "Factura"}
-                        style={{ height: "2.71428571em" }}
-                        onChange={(e, { value }) => setfacture(value)}
-                      />
-                    </Form.Field>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Form.Field>
-                      <Form.Input
-                        required
-                        type="datetime-local"
-                        style={{ height: "2.71428571em" }}
-                        onChange={(e, { value }) => setBuyDate(value)}
-                      />
-                    </Form.Field>
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns="2" style={{ paddingBottom: "1px" }}>
-                  <Grid.Column>
-                    <Header size="small"> Forma de pago </Header>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Header size="small"> Fecha de pago </Header>
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns="2">
-                  <Grid.Column>
-                    <Form.Field>
-                      <Select
-                        required
-                        placeholder="Tipo de pago"
-                        style={{ height: "2.71428571em" }}
-                        options={[
-                          { key: "Credito", value: "Credito", text: "Credito" },
-                          { key: "Contado", value: "Contado", text: "Contado" },
-                        ]}
-                        onChange={(e, { value }) => {
-                          setPaymentType(value);
-                          setPaymentDate("");
-                        }}
-                        value={paymentType}
-                      />
-                    </Form.Field>
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Form.Field>
-                      <Form.Input
-                        type="datetime-local"
-                        style={{ height: "2.71428571em" }}
-                        required
-                        disabled={paymentType !== "Credito"}
-                        onChange={(e, { value }) => setPaymentDate(value)}
-                      />
-                    </Form.Field>
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row>
-                  <Grid.Column>
-                    <Form.Field>
-                      <Form.TextArea
-                        placeholder="Descripcion"
-                        type="text"
-                        onChange={(e, { value }) => setDescription(value)}
-                      />
-                    </Form.Field>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-
-              <Grid>
-                {productsSelected.map((item, index) => (
-                  <Grid.Row key={index}>
-                    <Grid.Column width="8">
-                      <Form.Field>
-                        <Search
-                          results={products.map((it) => ({
-                            title: it.name,
-                          }))}
-                          placeholder="Producto"
-                          onSearchChange={(e, { value }) => {
-                            const p = [...productsSelected];
-                            p[index] = value;
-                            setSelected(p);
-                          }}
-                          onResultSelect={(e, { result }) => {
-                            const p = [...productsSelected];
-                            p[index] = result.title;
-                            setSelected(p);
-                          }}
-                        />
-                      </Form.Field>
-                    </Grid.Column>
-                    <Grid.Column width="4">
-                      <Form.Field>
-                        <Form.Input
-                          required
-                          placeholder="Precio unitario"
-                          provider="number"
-                          min="0"
-                          step="1"
-                          onChange={(e, { value }) => {
-                            const p = [...prices];
-                            p[index] = value;
-                            setPrices(p);
-                          }}
-                        />
-                      </Form.Field>
-                    </Grid.Column>
-                    <Grid.Column width="3">
-                      <Form.Field>
-                        <Form.Input
-                          required
-                          placeholder="Cantidad"
-                          provider="number"
-                          onChange={(e, { value }) => {
-                            const p = [...quantities];
-                            p[index] = value;
-                            setQuantities(p);
-                          }}
-                        />
-                      </Form.Field>
-                    </Grid.Column>
-                    <Grid.Column width="1">
-                      <div
-                        onClick={() => {
-                          setSelected(
-                            productsSelected.filter((val, ind) => ind !== index)
-                          );
-                          setPrices(prices.filter((val, ind) => ind !== index));
-
-                          setQuantities(
-                            quantities.filter((val, ind) => ind !== index)
-                          );
-                        }}
-                      >
-                        <Icon name="delete" size="large" />
-                      </div>
+          <Grid stackable>
+            <Grid.Row columns="2">
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small"> Proveedor </Header>
                     </Grid.Column>
                   </Grid.Row>
-                ))}
-              </Grid>
-              <div style={{ marginTop: "3vh", marginBottom: "3vh" }}>
-                <Button
-                  fluid
-                  color="green"
-                  onClick={() => {
-                    setSelected([...productsSelected, ""]);
-                    setQuantities([...quantities, ""]);
-                    setPrices([...prices, ""]);
-                  }}
-                  type="button"
-                >
-                  Agregar producto
-                </Button>
-              </div>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Form.Input
+                          required
+                          placeholder="Proveedor"
+                          style={{ height: "2.71428571em" }}
+                          onChange={(e, { value }) => setProvider(value)}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small"> Tipo de gasto </Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Select
+                          required
+                          placeholder="Tipo de gasto"
+                          style={{ height: "2.71428571em" }}
+                          options={[
+                            {
+                              key: "Gasto Local",
+                              value: "Gasto Local",
+                              text: "Gasto Local",
+                            },
+                            {
+                              key: "Factura de Compra",
+                              value: "Factura de Compra",
+                              text: "Factura de Compra",
+                            },
+                          ]}
+                          onChange={(e, { value }) => setExpenseType(value)}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+            </Grid.Row>
 
-              <Button
-                fluid
-                color="blue"
-                type="submit"
-                disabled={
-                  !provider ||
-                  !docType ||
-                  !expenseType ||
-                  !buyDate ||
-                  !paymentType
-                }
-              >
-                Agregar
-              </Button>
-            </Grid.Column>
+            <Grid.Row columns="3">
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small"> Tipo de documento </Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Select
+                          required
+                          placeholder="Tipo de documento"
+                          style={{ height: "2.71428571em" }}
+                          options={[
+                            { key: "Boleta", value: "Boleta", text: "Boleta" },
+                            {
+                              key: "Factura",
+                              value: "Factura",
+                              text: "Factura",
+                            },
+                            { key: "Otro", value: "Otro", text: "Otro" },
+                          ]}
+                          onChange={(e, { value }) => {
+                            setDocType(value);
+                            setfacture(1);
+                          }}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small">Numero de factura</Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Form.Input
+                          required
+                          placeholder="Numero de factura"
+                          type="number"
+                          min="1"
+                          disabled={docType !== "Factura"}
+                          style={{ height: "2.71428571em" }}
+                          onChange={(e, { value }) => setfacture(value)}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small"> Fecha de compra </Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Form.Input
+                          required
+                          type="datetime-local"
+                          style={{ height: "2.71428571em" }}
+                          onChange={(e, { value }) => setBuyDate(value)}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+            </Grid.Row>
+
+            <Grid.Row columns="2">
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small"> Forma de pago </Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Select
+                          required
+                          placeholder="Tipo de pago"
+                          style={{ height: "2.71428571em" }}
+                          options={[
+                            {
+                              key: "Credito",
+                              value: "Credito",
+                              text: "Credito",
+                            },
+                            {
+                              key: "Contado",
+                              value: "Contado",
+                              text: "Contado",
+                            },
+                          ]}
+                          onChange={(e, { value }) => {
+                            setPaymentType(value);
+                            setPaymentDate("");
+                          }}
+                          value={paymentType}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small"> Fecha de pago </Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Form.Input
+                          type="datetime-local"
+                          style={{ height: "2.71428571em" }}
+                          required
+                          disabled={paymentType !== "Credito"}
+                          onChange={(e, { value }) => setPaymentDate(value)}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+                <Form.Field>
+                  <Form.TextArea
+                    placeholder="Descripcion"
+                    type="text"
+                    onChange={(e, { value }) => setDescription(value)}
+                  />
+                </Form.Field>
+              </Grid.Column>
+            </Grid.Row>
           </Grid>
+          <h3>Productos</h3>
+          <Grid stackable>
+            {productsSelected.map((item, index) => (
+              <Grid.Row key={index} className="producto">
+                <Grid.Column width="8">
+                  <Form.Field>
+                    <Search
+                      results={products.map((it) => ({
+                        title: it.name,
+                      }))}
+                      placeholder="Producto"
+                      onSearchChange={(e, { value }) => {
+                        const p = [...productsSelected];
+                        p[index] = value;
+                        setSelected(p);
+                      }}
+                      onResultSelect={(e, { result }) => {
+                        const p = [...productsSelected];
+                        p[index] = result.title;
+                        setSelected(p);
+                      }}
+                    />
+                  </Form.Field>
+                </Grid.Column>
+                <Grid.Column width="4">
+                  <Form.Field>
+                    <Form.Input
+                      required
+                      placeholder="Precio unitario"
+                      provider="number"
+                      min="0"
+                      step="1"
+                      onChange={(e, { value }) => {
+                        const p = [...prices];
+                        p[index] = value;
+                        setPrices(p);
+                      }}
+                    />
+                  </Form.Field>
+                </Grid.Column>
+                <Grid.Column width="3">
+                  <Form.Field>
+                    <Form.Input
+                      required
+                      placeholder="Cantidad"
+                      provider="number"
+                      onChange={(e, { value }) => {
+                        const p = [...quantities];
+                        p[index] = value;
+                        setQuantities(p);
+                      }}
+                    />
+                  </Form.Field>
+                </Grid.Column>
+                <Grid.Column width="1">
+                  <div
+                    onClick={() => {
+                      setSelected(
+                        productsSelected.filter((val, ind) => ind !== index)
+                      );
+                      setPrices(prices.filter((val, ind) => ind !== index));
+
+                      setQuantities(
+                        quantities.filter((val, ind) => ind !== index)
+                      );
+                    }}
+                  >
+                    <Icon name="delete" size="large" />
+                  </div>
+                </Grid.Column>
+              </Grid.Row>
+            ))}
+          </Grid>
+          <div style={{ marginTop: "3vh", marginBottom: "3vh" }}>
+            <Button
+              fluid
+              color="green"
+              onClick={() => {
+                setSelected([...productsSelected, ""]);
+                setQuantities([...quantities, ""]);
+                setPrices([...prices, ""]);
+              }}
+              type="button"
+            >
+              Agregar producto
+            </Button>
+          </div>
+
+          <Button
+            fluid
+            color="blue"
+            type="submit"
+            disabled={
+              !provider || !docType || !expenseType || !buyDate || !paymentType
+            }
+          >
+            Agregar
+          </Button>
         </Form>
       </Modal.Content>
     </Modal>

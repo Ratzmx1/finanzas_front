@@ -113,7 +113,7 @@ const Ganancias = () => {
   return (
     <Container>
       <Header textAlign="center" size="huge">
-        Ventas
+        Ganancias
       </Header>
 
       <Grid columns={3}>
@@ -144,6 +144,7 @@ const Ganancias = () => {
                 setInput2("");
                 setSelection(value);
               }}
+              fluid
               value={selection}
               options={selectOptions}
             />

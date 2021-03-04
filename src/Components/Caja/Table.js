@@ -1,20 +1,11 @@
-import { Icon, Table, Button } from "semantic-ui-react";
-import { useHistory } from "react-router-dom";
+import { Table } from "semantic-ui-react";
 
 import dayjs from "dayjs";
 
 import { useState, useEffect } from "react";
-import { setToken, setUser } from "../../Redux/actionCreators";
-import { useDispatch } from "react-redux";
-
-import Swal from "sweetalert2";
-import axios from "axios";
-import { baseUrl } from "../../Utils/baseUrl";
 
 const Teibol = ({ data }) => {
   const [total, setTotal] = useState(0);
-  const navigator = useHistory();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setTotal(0);

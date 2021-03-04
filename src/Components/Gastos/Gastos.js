@@ -115,7 +115,7 @@ const Gastos = () => {
   return (
     <Container>
       <Header textAlign="center" size="huge">
-        Compras
+        Gastos
       </Header>
       <Grid columns={3}>
         <Grid.Row>
@@ -145,6 +145,7 @@ const Gastos = () => {
                 setInput2("");
                 setSelection(value);
               }}
+              fluid
               value={selection}
               options={selectOptions}
             />

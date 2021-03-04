@@ -1,15 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Modal,
-  Button,
-  Form,
-  Grid,
-  Search,
-  Icon,
-  Select,
-} from "semantic-ui-react";
+import { Modal, Button, Form, Grid, Select, Header } from "semantic-ui-react";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import axios from "axios";
 import { baseUrl } from "../../Utils/baseUrl";
@@ -60,60 +52,96 @@ const ModalAgregar = () => {
           Agregar
         </Button>
       }
+      size="small"
     >
       <Modal.Header>Agregar entrada</Modal.Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit}>
-          <Grid columns="12">
-            <Grid.Column></Grid.Column>
-            <Grid.Column width="13">
-              <Grid stackable>
-                <Grid.Row columns="2">
-                  <Grid.Column>
-                    <Select
-                      placeholder="Tipo"
-                      options={[
-                        { key: "profit", value: "profit", text: "Abono" },
-                        { key: "expense", value: "expense", text: "Cargo" },
-                      ]}
-                      onChange={(e, { value }) => setType(value)}
-                      style={{ height: "2.71428571em" }}
-                      fluid
-                    />
-                  </Grid.Column>
-                  <Grid.Column>
-                    <Form.Input
-                      style={{ height: "2.71428571em" }}
-                      placeholder="Valor"
-                      type="number"
-                      min="1"
-                      required
-                      onChange={(e, { value }) => setValue(value)}
-                    />
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns="1">
-                  <Grid.Column>
-                    <Form.TextArea
-                      placeholder="Descripcion"
-                      onChange={(e, { value }) => setDescription(value)}
-                    />
-                  </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns="1">
-                  <Grid.Column>
-                    <Button
-                      fluid
-                      color="blue"
-                      type="submit"
-                      disabled={!type || !description || !value}
-                    >
-                      Agregar
-                    </Button>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </Grid.Column>
+          <Grid stackable>
+            <Grid.Row columns="2">
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small">Tipo</Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Select
+                          placeholder="Tipo"
+                          options={[
+                            { key: "profit", value: "profit", text: "Abono" },
+                            { key: "expense", value: "expense", text: "Cargo" },
+                          ]}
+                          onChange={(e, { value }) => setType(value)}
+                          style={{ height: "2.71428571em" }}
+                          fluid
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small">Cantidad</Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Form.Input
+                          style={{ height: "2.71428571em" }}
+                          placeholder="Valor"
+                          type="number"
+                          min="1"
+                          required
+                          onChange={(e, { value }) => setValue(value)}
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row columns="1">
+              <Grid.Column>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header size="small">Descripcion</Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Form.Field>
+                        <Form.TextArea
+                          placeholder="Descripcion"
+                          onChange={(e, { value }) => setDescription(value)}
+                          required
+                        />
+                      </Form.Field>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row columns="1">
+              <Grid.Column>
+                <Button
+                  fluid
+                  color="blue"
+                  type="submit"
+                  disabled={!type || !description || !value}
+                >
+                  Agregar
+                </Button>
+              </Grid.Column>
+            </Grid.Row>
           </Grid>
         </Form>
       </Modal.Content>

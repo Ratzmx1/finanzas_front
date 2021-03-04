@@ -145,6 +145,7 @@ const Caja = () => {
                 setInput2("");
                 setSelection(value);
               }}
+              fluid
               value={selection}
               options={selectOptions}
             />
