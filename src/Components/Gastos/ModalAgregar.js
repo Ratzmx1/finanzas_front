@@ -26,6 +26,7 @@ const ModalAgregar = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
   const [productsSelected, setSelected] = useState([""]);
+  const [resultsProductsSelected, setResultsProductsSelected] = useState([]);
   const [quantities, setQuantities] = useState([""]);
   const [prices, setPrices] = useState([""]);
   const [provider, setProvider] = useState("");
@@ -328,14 +329,23 @@ const ModalAgregar = () => {
                 <Grid.Column width="8">
                   <Form.Field>
                     <Search
-                      results={products.map((it) => ({
-                        title: it.name,
+                      results={resultsProductsSelected.map((p) => ({
+                        title: p.name,
                       }))}
                       placeholder="Producto"
+                      value={productsSelected[index]}
                       onSearchChange={(e, { value }) => {
                         const p = [...productsSelected];
                         p[index] = value;
                         setSelected(p);
+                        setResultsProductsSelected(
+                          products.filter((prod) =>
+                            prod.name
+                              .toUpperCase()
+                              .trim()
+                              .includes(p[index].toUpperCase().trim())
+                          )
+                        );
                       }}
                       onResultSelect={(e, { result }) => {
                         const p = [...productsSelected];
