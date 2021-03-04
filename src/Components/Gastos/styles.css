@@ -1,0 +1,8 @@
+@media (max-width: 767px) {
+  .producto {
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 1vw;
+  }
+}
