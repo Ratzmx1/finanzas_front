@@ -62,7 +62,7 @@ const Percentage = () => {
     },
   };
 
-  if (data.length < 2) return <Header>Sin informacion este mes</Header>;
+  if (data.length < 1) return <Header>Sin informacion este mes</Header>;
 
   return (
     <Chart height={400} data={data} scale={cols} autoFit>

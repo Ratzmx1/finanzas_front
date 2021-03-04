@@ -10,7 +10,7 @@ const Home = () => {
       <Header size="huge" textAlign="center">
         Resumen
       </Header>
-      <Grid>
+      <Grid stackable>
         <Grid.Row columns="2">
           <Grid.Column>
             <Card fluid>

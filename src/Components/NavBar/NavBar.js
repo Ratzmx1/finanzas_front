@@ -28,6 +28,8 @@ export const NavBar = () => {
         setActive("Productos");
       } else if (url === "/gastos") {
         setActive("Gastos");
+      } else if (url === "/caja") {
+        setActive("Caja");
       } else {
         setActive("Inicio");
       }
@@ -76,6 +78,15 @@ export const NavBar = () => {
                 onClick={() => {
                   handleClick("Productos");
                   navigator.push("/productos");
+                }}
+              />
+              <Menu.Item
+                icon={<Icon size="large" name="dollar sign" />}
+                name="Caja"
+                active={active === "Caja"}
+                onClick={() => {
+                  handleClick("Caja");
+                  navigator.push("/caja");
                 }}
               />
               <Menu.Item

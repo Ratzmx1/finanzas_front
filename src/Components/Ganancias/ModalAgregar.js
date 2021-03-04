@@ -80,7 +80,6 @@ const ModalAgregar = () => {
       await Swal.fire(`Success`, `Venta agregada correctamente`, `success`);
       navigator.go(0);
     } catch (error) {
-      console.log(error.response);
       if (error.response && error.response.status === 404) {
         await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
         dispatch(setToken(""));
@@ -105,7 +104,7 @@ const ModalAgregar = () => {
           <Grid columns="12">
             <Grid.Column></Grid.Column>
             <Grid.Column width="13">
-              <Grid>
+              <Grid stackable>
                 <Grid.Row columns="3">
                   <Grid.Column>
                     <Form.Field>
@@ -135,7 +134,7 @@ const ModalAgregar = () => {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Input
-                      type="date"
+                      type="datetime-local"
                       onChange={(e, { value }) => setDate(value)}
                       required
                       style={{ height: "2.71428571em" }}

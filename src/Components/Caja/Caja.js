@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 import { setToken, setUser } from "../../Redux/actionCreators";
 import { useDispatch } from "react-redux";
 
-const Ganancias = () => {
+const Caja = () => {
   const [selection, setSelection] = useState("week");
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
@@ -37,7 +37,7 @@ const Ganancias = () => {
   const fetchData = async () => {
     if (selection === "lastest") {
       try {
-        const res = await axios.get(`${baseUrl}/profits/`, {
+        const res = await axios.get(`${baseUrl}/cash/`, {
           headers: { Authorization: `bearer ${localStorage.getItem("token")}` },
         });
         setData(res.data.data);
@@ -74,12 +74,12 @@ const Ganancias = () => {
     }
     try {
       const res = await axios.get(
-        `${baseUrl}/profits/${url}?data=${JSON.stringify(fetchData)}`,
+        `${baseUrl}/cash/${url}?data=${JSON.stringify(fetchData)}`,
         {
           headers: { authorization: `bearer ${localStorage.getItem("token")}` },
         }
       );
-      setData(res.data.profits);
+      setData(res.data.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
@@ -93,9 +93,10 @@ const Ganancias = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await axios.get(`${baseUrl}/profits/`, {
+        const res = await axios.get(`${baseUrl}/cash/`, {
           headers: { Authorization: `bearer ${localStorage.getItem("token")}` },
         });
+        console.log(res.data.data);
         setData(res.data.data);
       } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -113,7 +114,7 @@ const Ganancias = () => {
   return (
     <Container>
       <Header textAlign="center" size="huge">
-        Ventas
+        Caja
       </Header>
 
       <Grid columns={3}>
@@ -165,4 +166,4 @@ const Ganancias = () => {
   );
 };
 
-export default Ganancias;
+export default Caja;

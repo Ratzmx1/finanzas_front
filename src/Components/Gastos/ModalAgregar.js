@@ -1,5 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Modal, Button, Form, Grid, Search, Icon } from "semantic-ui-react";
+import {
+  Modal,
+  Button,
+  Form,
+  Grid,
+  Search,
+  Icon,
+  Select,
+  Header,
+} from "semantic-ui-react";
 
 import { useState, useEffect } from "react";
 
@@ -17,9 +26,14 @@ const ModalAgregar = () => {
   const [productsSelected, setSelected] = useState([""]);
   const [quantities, setQuantities] = useState([""]);
   const [prices, setPrices] = useState([""]);
-  const [Provider, setProvider] = useState("");
-  const [facture, setfacture] = useState("");
+  const [provider, setProvider] = useState("");
+  const [facture, setfacture] = useState(1);
   const [description, setDescription] = useState("");
+  const [docType, setDocType] = useState("");
+  const [expenseType, setExpenseType] = useState("");
+  const [buyDate, setBuyDate] = useState("");
+  const [paymentDate, setPaymentDate] = useState("");
+  const [paymentType, setPaymentType] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
@@ -55,10 +69,15 @@ const ModalAgregar = () => {
       await axios.post(
         `${baseUrl}/expenses`,
         {
-          provider: Provider,
+          provider: provider,
+          documentType: docType,
           facture: parseInt(facture),
-          products: prod,
+          expenseType,
+          paymentType,
+          paymentDate: paymentDate ? new Date(paymentDate) : undefined,
           description,
+          products: prod,
+          date: new Date(buyDate),
         },
         {
           headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -90,16 +109,82 @@ const ModalAgregar = () => {
             <Grid.Column></Grid.Column>
             <Grid.Column width="13">
               <Grid>
+                <Grid.Row columns="2" style={{ paddingBottom: "1px" }}>
+                  <Grid.Column>
+                    <Header size="small"> Proveedor </Header>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Header size="small"> Tipo de gasto </Header>
+                  </Grid.Column>
+                </Grid.Row>
                 <Grid.Row columns="2">
                   <Grid.Column>
                     <Form.Field>
                       <Form.Input
                         required
                         placeholder="Proveedor"
+                        style={{ height: "2.71428571em" }}
                         onChange={(e, { value }) => setProvider(value)}
                       />
                     </Form.Field>
                   </Grid.Column>
+                  <Grid.Column>
+                    <Form.Field>
+                      <Select
+                        required
+                        placeholder="Tipo de gasto"
+                        style={{ height: "2.71428571em" }}
+                        options={[
+                          {
+                            key: "Gasto Local",
+                            value: "Gasto Local",
+                            text: "Gasto Local",
+                          },
+                          {
+                            key: "Factura de Compra",
+                            value: "Factura de Compra",
+                            text: "Factura de Compra",
+                          },
+                        ]}
+                        onChange={(e, { value }) => setExpenseType(value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns="3" style={{ paddingBottom: "1px" }}>
+                  <Grid.Column>
+                    <Header size="small"> Tipo de documento </Header>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Header size="small">
+                      {docType === "Factura" && "Numero de factura"}
+                    </Header>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Header size="small"> Fecha de compra </Header>
+                  </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row columns="3">
+                  <Grid.Column>
+                    <Form.Field>
+                      <Select
+                        required
+                        placeholder="Tipo de documento"
+                        style={{ height: "2.71428571em" }}
+                        options={[
+                          { key: "Boleta", value: "Boleta", text: "Boleta" },
+                          { key: "Factura", value: "Factura", text: "Factura" },
+                          { key: "Otro", value: "Otro", text: "Otro" },
+                        ]}
+                        onChange={(e, { value }) => {
+                          setDocType(value);
+                          setfacture(1);
+                        }}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+
                   <Grid.Column>
                     <Form.Field>
                       <Form.Input
@@ -107,7 +192,58 @@ const ModalAgregar = () => {
                         placeholder="Numero de factura"
                         type="number"
                         min="1"
+                        disabled={docType !== "Factura"}
+                        style={{ height: "2.71428571em" }}
                         onChange={(e, { value }) => setfacture(value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Field>
+                      <Form.Input
+                        required
+                        type="datetime-local"
+                        style={{ height: "2.71428571em" }}
+                        onChange={(e, { value }) => setBuyDate(value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns="2" style={{ paddingBottom: "1px" }}>
+                  <Grid.Column>
+                    <Header size="small"> Forma de pago </Header>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Header size="small"> Fecha de pago </Header>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns="2">
+                  <Grid.Column>
+                    <Form.Field>
+                      <Select
+                        required
+                        placeholder="Tipo de pago"
+                        style={{ height: "2.71428571em" }}
+                        options={[
+                          { key: "Credito", value: "Credito", text: "Credito" },
+                          { key: "Contado", value: "Contado", text: "Contado" },
+                        ]}
+                        onChange={(e, { value }) => {
+                          setPaymentType(value);
+                          setPaymentDate("");
+                        }}
+                        value={paymentType}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Field>
+                      <Form.Input
+                        type="datetime-local"
+                        style={{ height: "2.71428571em" }}
+                        required
+                        disabled={paymentType !== "Credito"}
+                        onChange={(e, { value }) => setPaymentDate(value)}
                       />
                     </Form.Field>
                   </Grid.Column>
@@ -153,7 +289,7 @@ const ModalAgregar = () => {
                         <Form.Input
                           required
                           placeholder="Precio unitario"
-                          Provider="number"
+                          provider="number"
                           min="0"
                           step="1"
                           onChange={(e, { value }) => {
@@ -169,7 +305,7 @@ const ModalAgregar = () => {
                         <Form.Input
                           required
                           placeholder="Cantidad"
-                          Provider="number"
+                          provider="number"
                           onChange={(e, { value }) => {
                             const p = [...quantities];
                             p[index] = value;
@@ -212,7 +348,18 @@ const ModalAgregar = () => {
                 </Button>
               </div>
 
-              <Button fluid color="blue" type="submit">
+              <Button
+                fluid
+                color="blue"
+                type="submit"
+                disabled={
+                  !provider ||
+                  !docType ||
+                  !expenseType ||
+                  !buyDate ||
+                  !paymentType
+                }
+              >
                 Agregar
               </Button>
             </Grid.Column>
@@ -224,9 +371,3 @@ const ModalAgregar = () => {
 };
 
 export default ModalAgregar;
-
-//TODO: Agregar tipo : Gasto local - Factura de compra
-//TODO: Tipo de compra : Factura / Boleta / Otro
-//TODO: Ingresar fecha de compra
-//TODO: Tipo de compra : Credito / Contado
-//TODO: Si es credito: Fecha de pago

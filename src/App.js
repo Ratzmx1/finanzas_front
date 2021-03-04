@@ -13,6 +13,7 @@ import GananciasDetail from "./Components/Ganancias/Detail/Detail";
 import Gastos from "./Components/Gastos/Gastos";
 import GastosDetail from "./Components/Gastos/Details/Details";
 import Products from "./Components/Productos/Productos";
+import Caja from "./Components/Caja/Caja";
 
 import { useHistory } from "react-router-dom";
 
@@ -38,6 +39,7 @@ function App() {
         <Route exact path="/gastos/" component={auth(Gastos)} />
         <Route exact path="/gastos/:id" component={auth(GastosDetail)} />
         <Route exact path="/productos" component={auth(Products)} />
+        <Route exact path="/caja" component={auth(Caja)} />
         <Route component={auth(Notfound)} />
       </Switch>
     </>
@@ -46,5 +48,4 @@ function App() {
 
 export default App;
 
-//TODO: Gestion de caja (Tipo saldo banco)
 //TODO: Hacer responsive
