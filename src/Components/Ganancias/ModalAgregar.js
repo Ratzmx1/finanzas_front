@@ -204,7 +204,6 @@ const ModalAgregar = () => {
                         <Form.TextArea
                           onChange={(e, { value }) => setDesc(value)}
                           placeholder="Descripcion"
-                          fluid
                         />
                       </Form.Field>
                     </Grid.Column>
