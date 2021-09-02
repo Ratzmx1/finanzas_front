@@ -5,12 +5,14 @@ import dayjs from "dayjs";
 import { useState, useEffect } from "react";
 
 const Teibol = ({ data }) => {
-  const [total, setTotal] = useState(0);
+  const [abonos, setAbonos] = useState(0);
+  const [cargos, setCargos] = useState(0);
 
   useEffect(() => {
-    setTotal(0);
+    setAbonos(0);
     data.forEach((e) => {
-      setTotal((t) => t + e.balance);
+      setAbonos((t) => t + e.abono);
+      setCargos((t) => t + e.cargo);
     });
   }, [data]);
 
@@ -62,16 +64,23 @@ const Teibol = ({ data }) => {
           <Table.Cell></Table.Cell>
           <Table.Cell></Table.Cell>
           <Table.Cell></Table.Cell>
-          <Table.Cell></Table.Cell>
-          <Table.Cell></Table.Cell>
           <Table.Cell>
             <b>
               {new Intl.NumberFormat("es-cl", {
                 style: "currency",
                 currency: "CLP",
-              }).format(total)}
+              }).format(cargos)}
             </b>
           </Table.Cell>
+          <Table.Cell>
+            <b>
+              {new Intl.NumberFormat("es-cl", {
+                style: "currency",
+                currency: "CLP",
+              }).format(abonos)}
+            </b>
+          </Table.Cell>
+          <Table.Cell></Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>

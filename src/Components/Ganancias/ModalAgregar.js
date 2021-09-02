@@ -44,10 +44,15 @@ const ModalAgregar = () => {
           headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setProducts(res.data.data);
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
           dispatch(setToken(""));
           dispatch(setUser({}));
+        } else if (err.response && err.response.status === 404) {
+          await Swal.fire("Unauthorized", `Usuario no autorizado`, `warning`);
+          dispatch(setToken(""));
+          dispatch(setUser({}));
+          navigator.push("/login");
         }
       }
     };

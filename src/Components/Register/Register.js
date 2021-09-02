@@ -44,7 +44,7 @@ const Register = () => {
           dispatch(setToken(""));
           dispatch(setUser({}));
           navigator.push("/login");
-        }else if (err.response.status === 409) {
+        } else if (err.response.status === 409) {
           console.log("Usuario ya registrado");
         }
       }
